@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy | diff</title>
+    <meta
+      name="description"
+      content="diff の Privacy ページ。入力テキストを送らない範囲、保存方針、アクセス統計の扱いを説明しています。"
+    />
+    <link rel="canonical" href="https://diff.shingokmg.com/privacy" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="doc-shell">
+      <a class="doc-back" href="index.html">← diff に戻る</a>
+      <header class="doc-header">
+        <h1>Privacy</h1>
+        <p class="site-copy">
+          diff は、入力テキストや差分結果を比較処理のためにサーバーへ送信しないことを前提に設計されています。ここでは、何を送らないか、何を保存しないか、アクセス統計として何が扱われ得るかを整理します。
+        </p>
+      </header>
+
+      <section class="doc-card">
+        <h2>このページで伝えたいこと</h2>
+        <ul class="doc-list">
+          <li>入力テキストはブラウザ内で比較し、比較処理のためにサーバーへ送信しません。</li>
+          <li>一方で、サイト配信やアクセス解析に伴う技術情報はインフラ提供者に処理される場合があります。</li>
+        </ul>
+      </section>
+
+      <section class="doc-card">
+        <h2>送らないもの</h2>
+        <ul class="doc-list">
+          <li>入力テキスト本文</li>
+          <li>差分結果そのもの</li>
+          <li>本文処理のための外部 API リクエスト</li>
+        </ul>
+      </section>
+
+      <section class="doc-card">
+        <h2>保存方針</h2>
+        <ul class="doc-list">
+          <li>入力テキストを localStorage や sessionStorage に保存しない</li>
+          <li>入力内容を保持するための Cookie を使わない</li>
+          <li>アプリ自身は入力内容を自動保存しない</li>
+        </ul>
+      </section>
+
+      <section class="doc-card">
+        <h2>アクセス解析</h2>
+        <p>
+          このサイトでは Cloudflare Web Analytics を利用して、ページの閲覧数や表示速度など、サイト運用に必要な最小限の集計情報を把握します。
+        </p>
+        <ul class="doc-list">
+          <li>ページの閲覧数や表示速度などの集計情報</li>
+          <li>閲覧ページ、参照元、デバイス種別、ブラウザなどの集計情報</li>
+          <li>入力テキストや差分結果は、比較処理のためにサーバーへ送信しない</li>
+        </ul>
+      </section>
+
+      <section class="doc-card">
+        <h2>限界</h2>
+        <p>
+          この方針は、利用者の端末上のソフトウェア、ブラウザ拡張機能、ネットワーク環境による情報取得までは防ぎません。
+        </p>
+      </section>
+
+      <section class="doc-card">
+        <h2>関連情報</h2>
+        <p>
+          何を守る設計か、どこまでを守れないかは <a href="security.html">Security ページ</a> にまとめています。
+        </p>
+      </section>
+
+      <footer class="site-footer doc-footer">
+        <p>
+          Operated by
+          <a href="https://zenn.dev/shingokmg" target="_blank" rel="noreferrer">shingokmg</a>
+        </p>
+        <nav class="footer-links" aria-label="Footer links">
+          <a href="security.html">Security</a>
+          <a href="https://github.com/shingokmg/diff" target="_blank" rel="noreferrer">Source on GitHub</a>
+        </nav>
+      </footer>
+    </main>
+  </body>
+</html>

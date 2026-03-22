@@ -1,0 +1,21 @@
+.DS_Store
+
+# Editor settings
+.idea/
+.vscode/
+
+# Dependencies and local tooling
+node_modules/
+.wrangler/
+
+# Build and test artifacts
+dist/
+coverage/
+.cache/
+
+# Local environment files
+.env
+.env.*
+
+# Private planning and local-only docs
+private/

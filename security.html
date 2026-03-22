@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security | diff</title>
+    <meta
+      name="description"
+      content="diff の Security ページ。入力テキストをサーバーへ送らない設計と、守れる範囲・守れない範囲を説明しています。"
+    />
+    <link rel="canonical" href="https://diff.shingokmg.com/security" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="doc-shell">
+      <a class="doc-back" href="index.html">← diff に戻る</a>
+      <header class="doc-header">
+        <h1>Security</h1>
+        <p class="site-copy">
+          diff は、入力テキストを比較処理のためにサーバーへ送信しないことを主眼にした静的ツールです。ここでは、何を守るための設計か、どこまでを守れないかを明確にします。
+        </p>
+      </header>
+
+      <section class="doc-card">
+        <h2>このページで伝えたいこと</h2>
+        <ul class="doc-list">
+          <li>diff は、アプリ自身が入力テキストを外部へ送らないことを重視して設計しています。</li>
+          <li>ただし、端末やブラウザ環境そのものの安全性まで保証するものではありません。</li>
+        </ul>
+      </section>
+
+      <section class="doc-card">
+        <h2>目標</h2>
+        <ul class="doc-list">
+          <li>入力テキストと差分結果をブラウザ内だけで処理する</li>
+          <li>本文処理のための外部 API を使わない</li>
+          <li>入力テキストを localStorage、sessionStorage、Cookie に保存しない</li>
+          <li><a href="https://github.com/shingokmg/diff" target="_blank" rel="noreferrer">公開コード</a> で実装を検証できる状態を保つ</li>
+        </ul>
+      </section>
+
+      <section class="doc-card">
+        <h2>守る範囲</h2>
+        <ul class="doc-list">
+          <li>入力テキストはブラウザ内で比較する</li>
+          <li>差分処理のためにサーバーへ本文を送らない</li>
+          <li>本文処理のための外部解析 API を使わない</li>
+          <li>アプリ自身は入力内容を自動保存しない</li>
+        </ul>
+      </section>
+
+      <section class="doc-card">
+        <h2>実装上の根拠</h2>
+        <ul class="doc-list">
+          <li>本文処理用の fetch / XMLHttpRequest / WebSocket を持たない</li>
+          <li>本文を localStorage、sessionStorage、Cookie に保存しない</li>
+          <li>不要な外部ライブラリを増やさず、静的配信で完結する構成を優先している</li>
+          <li><a href="https://github.com/shingokmg/diff" target="_blank" rel="noreferrer">公開コード</a> を確認できるようにしている</li>
+        </ul>
+      </section>
+
+      <section class="doc-card">
+        <h2>守れない範囲</h2>
+        <ul class="doc-list">
+          <li>悪意あるブラウザ拡張</li>
+          <li>マルウェア、キーロガー、画面録画ソフト</li>
+          <li>クリップボード履歴や OS の補助機能</li>
+          <li>Web サイト閲覧時に通常発生するアクセスログやネットワークメタデータ</li>
+          <li>外部基盤の設定不備</li>
+        </ul>
+      </section>
+
+      <section class="doc-card">
+        <h2>機密性の高い文章について</h2>
+        <p>
+          diff は、入力テキストを比較処理のためにサーバーへ送らない設計です。ただし、業務上の機密文書や個人情報を扱う場合は、組織のルール、端末管理、ブラウザ拡張機能の有無なども合わせて確認してください。
+        </p>
+      </section>
+
+      <section class="doc-card">
+        <h2>関連情報</h2>
+        <p>
+          入力テキストの扱い、アクセス統計、保存方針の詳細は <a href="privacy.html">Privacy ページ</a> にまとめています。
+        </p>
+      </section>
+
+      <footer class="site-footer doc-footer">
+        <p>
+          Operated by
+          <a href="https://zenn.dev/shingokmg" target="_blank" rel="noreferrer">shingokmg</a>
+        </p>
+        <nav class="footer-links" aria-label="Footer links">
+          <a href="privacy.html">Privacy</a>
+          <a href="https://github.com/shingokmg/diff" target="_blank" rel="noreferrer">Source on GitHub</a>
+        </nav>
+      </footer>
+    </main>
+  </body>
+</html>

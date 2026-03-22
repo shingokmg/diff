@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>diff | 日本語テキストの差分比較と文字数カウント</title>
+    <meta
+      name="description"
+      content="修正前後の日本語テキスト差分と文字数をPCブラウザで確認できるツール。入力テキストはブラウザ内で比較し、サーバーへ送信しません。"
+    />
+    <link rel="canonical" href="https://diff.shingokmg.com/" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-intro">
+        <div class="title-row">
+          <h1>diff</h1>
+          <p class="service-subtitle">日本語テキスト差分比較ツール</p>
+        </div>
+        <p class="site-copy">
+          修正前後の日本語テキスト差分と文字数を、PC ブラウザで確認できます。
+        </p>
+        <p class="header-note">
+          入力テキストはブラウザ内で比較し、サーバーへ送信しません。詳しくは
+          <a href="#faq">FAQ</a>
+          をご確認ください。
+        </p>
+        <div class="header-tools" aria-label="Workspace tools">
+          <button type="button" class="help-button" id="open-help" aria-haspopup="dialog">
+            🔰
+          </button>
+          <div class="mode-toggle" role="tablist" aria-label="レイアウトモード">
+            <button
+              type="button"
+              class="mode-button is-active"
+              id="mode-standard"
+              aria-selected="true"
+            >
+              標準
+            </button>
+            <button
+              type="button"
+              class="mode-button"
+              id="mode-edit"
+              aria-selected="false"
+            >
+              編集
+            </button>
+            <button
+              type="button"
+              class="mode-button"
+              id="mode-review"
+              aria-selected="false"
+            >
+              最終確認
+            </button>
+          </div>
+        </div>
+      </div>
+      <aside class="header-uses" aria-label="Useful scenes">
+        <p class="header-uses-title">こういうときに便利</p>
+        <ul class="header-uses-list">
+          <li>人や AI に修正してもらった箇所を正確に把握したいとき</li>
+          <li>字数制限のある原稿の文字数を手元でパッと確認したいとき</li>
+          <li>業務 PC で専用ツールをインストールして使えないとき</li>
+        </ul>
+      </aside>
+    </header>
+
+    <main class="app-shell" data-layout="standard">
+      <section class="panel panel-original">
+        <div class="panel-header">
+          <div class="panel-title-row">
+            <h2>
+              <span class="panel-title-icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" focusable="false">
+                  <path
+                    d="M3.75 2.5h6.5a1.75 1.75 0 0 1 1.75 1.75v7.5a1.75 1.75 0 0 1-1.75 1.75h-6.5A1.75 1.75 0 0 1 2 11.75v-7.5A1.75 1.75 0 0 1 3.75 2.5Zm0 1a.75.75 0 0 0-.75.75v7.5c0 .414.336.75.75.75h6.5a.75.75 0 0 0 .75-.75v-7.5a.75.75 0 0 0-.75-.75h-6.5Z"
+                    fill="currentColor"
+                  />
+                  <path d="M4.75 5h4.5v1h-4.5V5Zm0 2h4.5v1h-4.5V7Zm0 2h3v1h-3V9Z" fill="currentColor" />
+                </svg>
+              </span>
+              <span class="panel-title-main">BEFORE</span>
+              <span class="panel-title-sub">テキスト</span>
+            </h2>
+            <p class="panel-count" id="original-count" aria-live="polite"></p>
+          </div>
+          <button type="button" class="panel-action" id="toggle-original-lock" aria-pressed="false">
+            <span class="panel-action-icon" aria-hidden="true">
+              <svg viewBox="0 0 16 16" focusable="false">
+                <path
+                  d="M5.5 6V4.75a2.5 2.5 0 1 1 5 0V6h.5A1.5 1.5 0 0 1 12.5 7.5v5A1.5 1.5 0 0 1 11 14H5A1.5 1.5 0 0 1 3.5 12.5v-5A1.5 1.5 0 0 1 5 6h.5Zm1 0h3V4.75a1.5 1.5 0 1 0-3 0V6Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+            <span class="panel-action-label">編集を固定</span>
+          </button>
+        </div>
+
+        <label class="sr-only" for="original-text">BEFORE テキスト</label>
+        <textarea
+          id="original-text"
+          spellcheck="false"
+          placeholder="比較元の文章を貼り付けてください"
+        ></textarea>
+      </section>
+
+      <section class="panel panel-revised">
+        <div class="panel-header">
+          <div class="panel-title-row">
+            <h2>
+              <span class="panel-title-icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" focusable="false">
+                  <path
+                    d="M3.75 2.5h5.32a1.75 1.75 0 0 1 1.238.513l1.18 1.18c.328.329.512.774.512 1.239v6.318a1.75 1.75 0 0 1-1.75 1.75h-6.5A1.75 1.75 0 0 1 2 11.75v-7.5A1.75 1.75 0 0 1 3.75 2.5Zm0 1a.75.75 0 0 0-.75.75v7.5c0 .414.336.75.75.75h6.5a.75.75 0 0 0 .75-.75V5.432a.75.75 0 0 0-.22-.53L9.599 3.72a.75.75 0 0 0-.53-.22H3.75Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M10.854 1.646a.5.5 0 0 1 .707 0l1.793 1.793a.5.5 0 0 1 0 .707l-4.9 4.9-2.18.387.387-2.18 4.193-4.607Zm.354 1.06L7.62 6.647l-.177.997.997-.177 3.94-3.587-1.172-1.173Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+              <span class="panel-title-main">AFTER</span>
+              <span class="panel-title-sub">テキスト</span>
+            </h2>
+            <p class="panel-count" id="revised-count" aria-live="polite"></p>
+          </div>
+          <button type="button" class="panel-action" id="copy-revised-text">
+            テキストをコピー
+          </button>
+        </div>
+
+        <label class="sr-only" for="revised-text">AFTER テキスト</label>
+        <textarea
+          id="revised-text"
+          spellcheck="false"
+          placeholder="比較先の文章を貼り付けてください。そのまま手直しもできます"
+        ></textarea>
+      </section>
+
+      <section class="panel panel-result">
+        <div class="panel-header">
+          <div class="panel-title-row panel-title-row-result">
+            <h2>
+              <span class="panel-title-icon" aria-hidden="true">
+                <svg viewBox="0 0 16 16" focusable="false">
+                  <path
+                    d="M5.5 3a2.5 2.5 0 1 1-2.45 3h-.8A1.25 1.25 0 0 1 1 4.75v-1.5A1.25 1.25 0 0 1 2.25 2h.8A2.5 2.5 0 0 1 5.5 3Zm0 1A1.5 1.5 0 1 0 7 5.5 1.5 1.5 0 0 0 5.5 4Zm5 5a2.5 2.5 0 1 1-2.45 3h-.8A1.25 1.25 0 0 1 6 10.75v-1.5A1.25 1.25 0 0 1 7.25 8h.8A2.5 2.5 0 0 1 10.5 9Zm0 1A1.5 1.5 0 1 0 12 11.5 1.5 1.5 0 0 0 10.5 10Z"
+                    fill="currentColor"
+                  />
+                  <path d="M8 5h6v1H8V5Zm-6 5h6v1H2v-1Z" fill="currentColor" />
+                </svg>
+              </span>
+              差分（diff）
+            </h2>
+            <div class="summary-row" id="diff-summary"></div>
+          </div>
+          <button type="button" class="panel-action" id="toggle-diff-only" aria-pressed="false">
+            差分だけ表示
+          </button>
+        </div>
+        <div class="diff-output" id="diff-output" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <section class="seo-sections" aria-label="About diff">
+      <article class="seo-card seo-card-wide">
+        <h2>diff（日本語テキスト差分比較ツール）とは</h2>
+        <ul class="seo-list">
+          <li>修正前後の日本語テキスト差分と文字数を、PC ブラウザで確認できるツールです。人や AI に修正してもらった文章の確認や、字数制限のある原稿の文字数確認を、専用ツールなしで手早く行えます。</li>
+          <li>自分が安心して使えるものを作りました。入力テキストは比較処理のためにサーバーへ送らず、PC ブラウザだけで完結する形にしています。</li>
+          <li>プログラミングのコードを見比べたい人、複数人でコメントを付けながら編集したい人、専門的な校正機能まで必要な人には向いていません。</li>
+        </ul>
+      </article>
+
+      <article class="seo-card">
+        <h2 id="faq">よくある質問</h2>
+        <dl class="faq-list">
+          <dt>無料で使えますか？</dt>
+          <dd>・はい。無料で使えます。</dd>
+
+          <dt>ユーザー登録は必要ですか？</dt>
+          <dd>・いいえ。ユーザー登録なしで使えます。</dd>
+
+          <dt>インストールは必要ですか？</dt>
+          <dd>・不要です。PC ブラウザだけで使えます。</dd>
+
+          <dt>入力した内容はサーバーに送信されますか？</dt>
+          <dd>・いいえ。入力テキストはブラウザ内で比較し、サーバーへ送信しません。<br />・詳しくは <a href="security.html">Security</a> / <a href="privacy.html">Privacy</a> をご確認ください。</dd>
+
+          <dt>入力した内容はブラウザに保存されますか？</dt>
+          <dd>・いいえ。入力テキストは localStorage、sessionStorage、Cookie に自動保存していません。<br />・アプリ自身は入力内容を自動保存しませんが、ブラウザの復元機能により内容が残る場合があります。</dd>
+
+          <dt>文字数はどのように数えていますか？</dt>
+          <dd>・半角・全角ともに 1 文字として扱い、スペースもカウントします。改行は文字数に含めていません。</dd>
+
+          <dt>差分はどのように判定していますか？</dt>
+          <dd>
+            ・まず、テキストを改行ごとに分割して行単位で並べ、どの行が追加・削除・変更されたかを特定します。<br />
+            ・次に、変更があった行について文字単位でさらに細かく比較し、改行や空白の違いも差分として扱います。<br />
+            ・仕組みとしては、LCS（最長共通部分列）アルゴリズムを使っています。
+          </dd>
+
+          <dt>長い文章でも使えますか？</dt>
+          <dd>・はい。目安として、約1万文字程度まで快適に比較できます。<br />・ただし、1行が非常に長い場合は、処理や表示に時間がかかることがありえます。</dd>
+        </dl>
+      </article>
+
+      <article class="seo-card">
+        <h2>更新履歴</h2>
+        <dl class="faq-list">
+          <dt>2026年3月22日</dt>
+          <dd>diff を公開しました。</dd>
+        </dl>
+      </article>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-meta">
+        <p>
+          Operated by
+          <a href="https://zenn.dev/shingokmg" target="_blank" rel="noreferrer">shingokmg</a>
+        </p>
+        <p class="footer-note">
+          役に立ったら <a href="https://github.com/shingokmg/diff" target="_blank" rel="noreferrer">GitHub の Star で応援</a> してもらえるとうれしいです
+        </p>
+      </div>
+      <nav class="footer-links" aria-label="Footer links">
+        <a href="security.html">Security</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://github.com/shingokmg/diff" target="_blank" rel="noreferrer">Source on GitHub</a>
+      </nav>
+    </footer>
+
+    <div class="modal-backdrop" id="help-modal" hidden>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="help-modal-title">
+        <div class="modal-header">
+          <h2 id="help-modal-title">🔰 使い方</h2>
+          <button type="button" class="modal-close" id="close-help" aria-label="閉じる">
+            ×
+          </button>
+        </div>
+        <ol class="help-list">
+          <li><strong>BEFOREテキスト</strong> に元の文章、<strong>AFTERテキスト</strong> に修正後の文章を貼り付けます。</li>
+          <li><strong>AFTERテキスト</strong> は、その場で手直ししながら使えます。</li>
+          <li>差分は自動で更新されます。変更箇所だけ見たいときは「差分だけ表示」を押します。</li>
+          <li>BEFORE を誤って触りたくないときは「編集を固定」を押します。もう一度押すと解除できます。</li>
+          <li><span class="help-accent">標準</span> は全体確認、<span class="help-accent">編集</span> は BEFORE と AFTER を見比べながら修正、<span class="help-accent">最終確認</span> は AFTER と差分に集中したいときに向いています。</li>
+          <li><strong>AFTERテキスト</strong> は「テキストをコピー」で全文コピーできます。</li>
+        </ol>
+      </div>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
