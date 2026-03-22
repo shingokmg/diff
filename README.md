@@ -2,6 +2,8 @@
 
 diff は、修正前後の日本語テキスト差分と文字数を PC ブラウザで確認できる静的ツールです。
 
+Code is available under the MIT License.
+
 公開 URL:
 
 - `https://diff.shingokmg.com`
