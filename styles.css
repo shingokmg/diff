@@ -951,4 +951,8 @@ textarea.is-locked {
     flex-direction: column;
     align-items: flex-start;
   }
+
+  .header-tools {
+    display: none;
+  }
 }
