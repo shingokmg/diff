@@ -410,7 +410,7 @@ const renderEmptyState = () => {
   const wrapper = document.createElement("div");
   wrapper.className = "diff-empty";
   wrapper.textContent =
-    "左右の入力欄にテキストを貼り付けると、ここに差分が表示されます。";
+    "BEFORE と AFTER にテキストを入力すると、ここに差分が表示されます。";
   diffOutput.replaceChildren(wrapper);
   renderSummary({
     additions: 0,
