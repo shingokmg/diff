@@ -28,9 +28,20 @@
           をご確認ください。
         </p>
         <div class="header-tools" aria-label="Workspace tools">
-          <button type="button" class="help-button" id="open-help" aria-haspopup="dialog">
-            🔰
-          </button>
+          <div class="mode-toggle help-toggle" aria-label="補助機能">
+            <button
+              type="button"
+              class="mode-button help-toggle-button"
+              id="open-help"
+              aria-haspopup="dialog"
+            >
+              <span class="help-toggle-icon" aria-hidden="true">🔰</span>
+              <span>使い方</span>
+            </button>
+            <button type="button" class="mode-button help-toggle-button" id="apply-sample">
+              サンプルで試す
+            </button>
+          </div>
           <div class="mode-toggle" role="tablist" aria-label="レイアウトモード">
             <button
               type="button"
@@ -214,6 +225,9 @@
       <article class="seo-card">
         <h2>更新履歴</h2>
         <dl class="faq-list">
+          <dt>2026年3月29日</dt>
+          <dd>使い方の導線、サンプル入力、モバイル時の表示など、初回体験まわりを改善しました。</dd>
+
           <dt>2026年3月22日</dt>
           <dd>diff を公開しました。</dd>
         </dl>

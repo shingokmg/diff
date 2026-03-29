@@ -118,7 +118,7 @@ h1 {
 }
 
 .header-uses {
-  margin-top: 4px;
+  align-self: center;
   padding: 16px;
   border: 0;
   border-radius: var(--radius);
@@ -170,20 +170,25 @@ h1 {
   align-items: center;
 }
 
-.help-button {
-  width: 42px;
-  height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border-default);
-  border-radius: 12px;
-  background: var(--bg-default);
+.help-toggle {
+  gap: 2px;
+}
+
+.help-toggle-icon {
   color: var(--fg-default);
-  cursor: pointer;
-  box-shadow: var(--shadow);
   font-size: 18px;
   line-height: 1;
+}
+
+.help-toggle-button {
+  gap: 6px;
+  color: var(--fg-muted);
+  font-weight: 600;
+}
+
+.help-toggle-button:hover {
+  background: #edf4ff;
+  color: var(--accent);
 }
 
 .mode-toggle {
@@ -544,12 +549,11 @@ textarea.is-locked {
 }
 
 .diff-empty {
-  display: grid;
-  place-items: center;
+  display: block;
   min-height: 100%;
   padding: 24px;
   color: var(--fg-muted);
-  text-align: center;
+  text-align: left;
   line-height: 1.7;
 }
 

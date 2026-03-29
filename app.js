@@ -10,6 +10,7 @@ const standardModeButton = document.querySelector("#mode-standard");
 const editModeButton = document.querySelector("#mode-edit");
 const reviewModeButton = document.querySelector("#mode-review");
 const openHelpButton = document.querySelector("#open-help");
+const applySampleButton = document.querySelector("#apply-sample");
 const closeHelpButton = document.querySelector("#close-help");
 const helpModal = document.querySelector("#help-modal");
 const toggleOriginalLockButton = document.querySelector("#toggle-original-lock");
@@ -19,6 +20,14 @@ const toggleDiffOnlyButton = document.querySelector("#toggle-diff-only");
 
 let isOriginalLocked = false;
 let isDiffOnlyMode = false;
+
+const SAMPLE_TEXT = {
+  before: `このツールは、修正前と修正後の文章を見比べたいときに使います。
+元の文章と修正後の文章を入力すると、どこが変わったかを確認できます。`,
+  after: `このツールは、修正前後の文章差分を確認したいときに使います。
+BEFORE と AFTER に文章を入力すると、どこが変わったかをひと目で確認できます。
+文字数も確認できるので、字数制限のある原稿の見直しにも使えます。`,
+};
 
 const debounce = (fn, wait = 120) => {
   let timerId = 0;
@@ -456,6 +465,28 @@ const refreshAll = () => {
   renderDiff();
 };
 
+const applySampleText = () => {
+  const hasInput = originalText.value !== "" || revisedText.value !== "";
+  if (hasInput) {
+    const shouldContinue = window.confirm(
+      "入力中のテキストがサンプルで上書きされます。続けますか？",
+    );
+    if (!shouldContinue) {
+      return;
+    }
+  }
+
+  isOriginalLocked = false;
+  isDiffOnlyMode = false;
+  originalText.value = SAMPLE_TEXT.before;
+  revisedText.value = SAMPLE_TEXT.after;
+  syncOriginalLockState();
+  syncDiffOnlyState();
+  setLayoutMode("standard");
+  refreshAll();
+  revisedText.focus();
+};
+
 const openHelpModal = () => {
   helpModal.hidden = false;
   document.body.style.overflow = "hidden";
@@ -555,6 +586,7 @@ originalPanel.addEventListener("keydown", (event) => {
   }
 });
 openHelpButton.addEventListener("click", openHelpModal);
+applySampleButton.addEventListener("click", applySampleText);
 closeHelpButton.addEventListener("click", closeHelpModal);
 toggleOriginalLockButton.addEventListener("click", () => {
   isOriginalLocked = !isOriginalLocked;
